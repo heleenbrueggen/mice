@@ -1,6 +1,6 @@
 #' A short description of your function
 #' 
-#' @aliases mice.impute.mbart
+#' @aliases mice.impute.2l.bart
 #' @inheritParams mice.impute.pmm
 #' @param type Vector of length \code{ncol(x)} identifying random and class
 #' variables.  Random variables are identified by a '2'. The class variable
@@ -19,7 +19,7 @@
 #' @export
 #' @examples
 
-mice.impute.mbart <- function(y, ry, x, wy = NULL, type, intercept = TRUE, use.matcher = FALSE, donors = 5L, ...) {
+mice.impute.2l.bart <- function(y, ry, x, wy = NULL, type, intercept = TRUE, use.matcher = FALSE, donors = 5L, ...) {
     install.on.demand("stan4bart", ...)
     if (is.null(wy)) {
         wy <- !ry
