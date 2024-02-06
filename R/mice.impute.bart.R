@@ -2,7 +2,8 @@
 #' 
 #' @aliases mice.impute.bart
 #' @inheritParams mice.impute.pmm
-#' @param ntree The number of trees to grow. The default is 200.
+#' @param \dots Other named arguments passed down to
+#' \code{dbarts::bart()}.
 #' @return Vector with imputed data, same type as \code{y}, and of length
 #' \code{sum(wy)}
 #' @details 
@@ -10,36 +11,32 @@
 #' @author
 #' @references 
 #' @family univariate imputation functions
-#' @keywords 
-#' @export
+#' @keywords datagen
 #' @examples
 #' \dontrun{
-#' imp <- mice(nhanes2, meth = "bart", ntree = 200)
+#' imp <- mice(nhanes, meth = "bart", ntree = 200)
 #' plot(imp)
 #' }
+#' @export
 
-mice.impute.bart <- function(y, ry, x, wy = NULL, ntree = 200, use.matcher = FALSE, donors = 5L, ...) {
+mice.impute.bart <- function(y, ry, x, wy = NULL, use.matcher = FALSE, donors = 5L, ...) {
     install.on.demand("dbarts", ...)
     if (is.null(wy)) {
         wy <- !ry
     }
 
-    xobs <- x[ry, , drop = FALSE]
-    xmis <- x[wy, , drop = FALSE]
-    yobs <- y[ry]
-
     # Parameter estimates
-   fit <- dbarts::bart(x.train = x, y.train = y, keeptrees = TRUE, verbose = FALSE) 
+    fit <- dbarts::bart(x, y, keeptrees = TRUE, verbose = FALSE)
 
-   yhatobs <- dbarts::fitted.bart(fit, type = "ev", sample = "train")[ry]
-   yhatmis <- dbarts::fitted.bart(fit, type = "ev", sample = "train")[wy]
+    yhatobs <- fitted(fit, type = "ev", sample = "train")[ry]
+    yhatmis <- fitted(fit, type = "ev", sample = "train")[wy]
 
-   # Find donors
-   if (use.matcher) {
-    idx <- matcher(yhatobs, yhatmis, k = donors)
-  } else {
-    idx <- matchindex(yhatobs, yhatmis, donors)
-  }
+    # Find donors
+    if (use.matcher) {
+        idx <- matcher(yhatobs, yhatmis, k = donors)
+    } else {
+        idx <- matchindex(yhatobs, yhatmis, donors)
+    }
 
-  return(yobs[idx])
+    return(y[ry][idx])
 }
