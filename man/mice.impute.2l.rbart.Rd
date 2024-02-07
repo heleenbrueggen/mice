@@ -47,9 +47,6 @@ the closest match, but is not recommended. Values between 3L and 10L
 provide the best results in most cases (Morris et al, 2015).}
 
 \item{...}{Other named arguments.}
-
-\item{intercept}{Logical determining whether the intercept is automatically
-added.}
 }
 \value{
 Vector with imputed data, same type as \code{y}, and of length
