@@ -2,7 +2,7 @@
 % Please edit documentation in R/mice.impute.bart.R
 \name{mice.impute.bart}
 \alias{mice.impute.bart}
-\title{A short description of your function}
+\title{Imputation by Bayesian Additive Regression Trees}
 \usage{
 mice.impute.bart(y, ry, x, wy = NULL, use.matcher = FALSE, donors = 5L, ...)
 }
@@ -40,15 +40,19 @@ Vector with imputed data, same type as \code{y}, and of length
 \code{sum(wy)}
 }
 \description{
-A short description of your function
+Imputation by Bayesian Additive Regression Trees
 }
 \examples{
 \dontrun{
-imp <- mice(nhanes, meth = "bart", ntree = 200)
+imp <- mice(nhanes, meth = "bart")
 plot(imp)
 }
 }
 \seealso{
+\code{\link{mice}}, \code{\link{mice.impute.cart}},
+\code{\link{mice.impute.rf}},
+\code{\link[dbarts]{bart}}
+
 Other univariate imputation functions: 
 \code{\link{mice.impute.cart}()},
 \code{\link{mice.impute.lasso.logreg}()},
@@ -72,6 +76,9 @@ Other univariate imputation functions:
 \code{\link{mice.impute.quadratic}()},
 \code{\link{mice.impute.rf}()},
 \code{\link{mice.impute.ri}()}
+}
+\author{
+Heleen Brüggen, 2024
 }
 \concept{univariate imputation functions}
 \keyword{datagen}
