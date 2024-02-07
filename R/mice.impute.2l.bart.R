@@ -46,26 +46,32 @@ mice.impute.2l.bart <- function(y, ry, x, wy = NULL, type, intercept = TRUE, use
 
     # create formula
     fr <- ifelse(length(rande) > 1,
-        paste("+ ( 1 +", paste(rande[-1L], collapse = "+")),
-        "+ ( 1 "
+        paste0("+ (1 +", paste(rande[-1L], collapse = "+")),
+        " + (1 "
     )
-    randmodel <- paste(
-        "yobs ~ bart(", paste(fixe[-1L], collapse = "+"), ")",
-        fr, "|", clust, ")"
+    randmodel <- paste0(
+        "y ~ bart(", paste0(fixe[-1L], collapse = " + "), ")",
+        fr, "| ", clust, ")"
     )
 
-    suppressWarnings(fit <- try(
-    stan4bart::stan4bart(formula(randmodel),
-      data = data.frame(yobs, xobs),
-      verbose = -1,
-      ...
-    ),
-    silent = TRUE
-  ))
-  if (inherits(fit, "try-error")) {
-    warning("stan4bart does not run. Simplify imputation model")
-    return(y[wy])
-  }
+    fit <- eval(parse(text = paste("stan4bart::stan4bart(", randmodel, 
+    ", data = data.frame(y, x),
+        verbose = -1,
+        ...
+    )", collapse = "")))
+
+#     suppressWarnings(fit <- try(
+#     stan4bart::stan4bart(formula(randmodel),
+#       data = data.frame(y, x),
+#       verbose = -1,
+#       ...
+#     ),
+#     silent = TRUE
+#   ))
+#   if (inherits(fit, "try-error")) {
+#     warning("stan4bart does not run. Simplify imputation model")
+#     return(y[wy])
+#   }
 
     yhatobs <- fitted(fit, type = "ev", sample = "train")[ry]
     yhatmis <- fitted(fit, type = "ev", sample = "train")[wy]
