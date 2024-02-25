@@ -60,19 +60,6 @@ mice.impute.2l.bart <- function(y, ry, x, wy = NULL, type, intercept = TRUE, use
         ...
     )", collapse = "")))
 
-#     suppressWarnings(fit <- try(
-#     stan4bart::stan4bart(formula(randmodel),
-#       data = data.frame(y, x),
-#       verbose = -1,
-#       ...
-#     ),
-#     silent = TRUE
-#   ))
-#   if (inherits(fit, "try-error")) {
-#     warning("stan4bart does not run. Simplify imputation model")
-#     return(y[wy])
-#   }
-
     yhatobs <- fitted(fit, type = "ev", sample = "train")[ry]
     yhatmis <- fitted(fit, type = "ev", sample = "train")[wy]
 
