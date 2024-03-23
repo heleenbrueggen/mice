@@ -53,12 +53,17 @@ mice.impute.2l.bart <- function(y, ry, x, wy = NULL, type, intercept = TRUE, use
         "y ~ bart(", paste0(fixe[-1L], collapse = " + "), ")",
         fr, "| ", clust, ")"
     )
-
-    fit <- eval(parse(text = paste("stan4bart::stan4bart(", randmodel, 
+fit <- eval(parse(text = paste("stan4bart::stan4bart(", randmodel,
     ", data = data.frame(y, x),
         verbose = -1,
+        bart_args = list(k = 2.0,
+                         n.samples = 1500L,
+                         n.burn = 1500L,
+                         n.thin = 5L)
         ...
-    )", collapse = "")))
+    )",
+    collapse = ""
+)))
 
     yhatobs <- fitted(fit, type = "ev", sample = "train")[ry]
     yhatmis <- fitted(fit, type = "ev", sample = "train")[wy]
