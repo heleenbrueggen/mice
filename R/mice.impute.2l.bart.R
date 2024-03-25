@@ -59,8 +59,7 @@ fit <- eval(parse(text = paste("stan4bart::stan4bart(", randmodel,
         bart_args = list(k = 2.0,
                          n.samples = 1500L,
                          n.burn = 1500L,
-                         n.thin = 5L)
-    )",
+                         n.thin = 5L))",
     collapse = ""
 )))
 
