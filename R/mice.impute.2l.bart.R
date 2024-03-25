@@ -56,10 +56,7 @@ mice.impute.2l.bart <- function(y, ry, x, wy = NULL, type, intercept = TRUE, use
 fit <- eval(parse(text = paste("stan4bart::stan4bart(", randmodel,
     ", data = data.frame(y, x),
         verbose = -1,
-        bart_args = list(k = 2.0,
-                         n.samples = 1500L,
-                         n.burn = 1500L,
-                         n.thin = 5L))",
+        bart_args = list(k = 2.0, n.samples = 1500L, n.burn = 1500L, n.thin = 5L))",
     collapse = ""
 )))
 
