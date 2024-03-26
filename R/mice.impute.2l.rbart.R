@@ -31,7 +31,7 @@ mice.impute.2l.rbart <- function(y, ry, x, wy = NULL, type, use.matcher = FALSE,
         "y ~ ", paste0(colnames(X), collapse = " + ")
     )
 
-    fit <- dbarts::rbart_vi(formula = formula(model), group.by = clust, data = data.frame(y, x), verbose = FALSE, ...)
+    fit <- dbarts::rbart_vi(formula = formula(model), group.by = clust, data = data.frame(y, x), verbose = FALSE, n.threads = 1, ...)
 
     yhatobs <- fitted(fit, type = "ev", sample = "train")[ry]
     yhatmis <- fitted(fit, type = "ev", sample = "train")[wy]
